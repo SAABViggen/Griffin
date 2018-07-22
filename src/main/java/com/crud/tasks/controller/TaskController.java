@@ -10,6 +10,7 @@ import java.util.List;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/v1/task")
 public class TaskController {
@@ -29,12 +30,17 @@ public class TaskController {
         return taskMapper.maptoTaskDto(service.getTask(taskId).orElseThrow(TaskNotFoundException::new));
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "searchTask")
+    public List<TaskDto> searchTask(@RequestParam String str) throws TaskNotFoundException {
+        return taskMapper.mapToTaskDtoList(service.searchTaskContaining(str));
+    }
+
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
     public void deleteTask(@RequestParam Long taskId) {
         service.deleteTask(taskId);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "updateTask")
+    @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
     public TaskDto updateTask(@RequestBody TaskDto taskDto) {
         return taskMapper.maptoTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
