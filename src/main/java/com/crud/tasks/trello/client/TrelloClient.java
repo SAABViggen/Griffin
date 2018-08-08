@@ -11,6 +11,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TrelloClient {
@@ -18,13 +19,13 @@ public class TrelloClient {
     @Value("${trello.api.endpoint.prod}")
     private String trelloApiEndpoint;
 
-    @Value("${trello.app.username}")
+    @Value("${trello.api.username}")
     private String username;
 
-    @Value("${trello.app.key}")
+    @Value("${trello.api.key}")
     private String trelloAppKey;
 
-    @Value("${trello.app.token}")
+    @Value("${trello.api.token}")
     private String trelloToken;
 
     @Autowired
@@ -34,10 +35,7 @@ public class TrelloClient {
 
         TrelloBoardDto[] boardsResponse = restTemplate.getForObject(buildUrl(), TrelloBoardDto[].class);
 
-        if (boardsResponse != null) {
-            return Arrays.asList(boardsResponse);
-        }
-        return new ArrayList<>();
+        return Optional.ofNullable(Arrays.asList(boardsResponse)).orElse(new ArrayList<>());
     }
 
     private URI buildUrl() {
