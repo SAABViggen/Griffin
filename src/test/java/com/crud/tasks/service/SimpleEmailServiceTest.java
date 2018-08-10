@@ -16,10 +16,10 @@ import static org.mockito.Mockito.verify;
 public class SimpleEmailServiceTest {
 
     @InjectMocks
-    SimpleEmailService emailService;
+    private SimpleEmailService emailService;
 
     @Mock
-    JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
     @Test
     public void shouldSendEmail() {
