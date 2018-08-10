@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
@@ -32,7 +33,8 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.GET, value = "searchTask")
     public List<TaskDto> searchTask(@RequestParam String str) throws TaskNotFoundException {
-        return taskMapper.mapToTaskDtoList(service.searchTaskContaining(str));
+        return Optional.ofNullable(taskMapper.mapToTaskDtoList(service.searchTaskContaining(str)))
+                .orElseThrow(TaskNotFoundException::new);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
