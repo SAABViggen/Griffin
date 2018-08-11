@@ -25,7 +25,7 @@ public class EmailScheduler {
     @Scheduled(fixedDelay = 10000)//cron = "0 0 10 * * *")
     public void sendInformationEmail() {
         long size = taskRepository.count();
-        String tasks = size > 1 ? "tasks" : "task";
+        String tasks = size > 1 ? "tasks. " : "task. ";
         String message = size >= 1 ? "Currently in database You got: " + size + " " + tasks
                 : "Currently there are no tasks in Your database. ";
         simpleEmailService.send(new Mail(
