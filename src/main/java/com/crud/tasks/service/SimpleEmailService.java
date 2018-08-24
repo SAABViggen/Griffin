@@ -4,6 +4,7 @@ import com.crud.tasks.domain.Mail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,6 +20,9 @@ public class SimpleEmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @Value("${spring.mail.username}")
+    private String emailSender;
+
     public void send(final Mail mail) {
         LOGGER.info("Starting email preparation... ");
         try {
@@ -32,6 +36,7 @@ public class SimpleEmailService {
 
     private SimpleMailMessage createMailMessage(final Mail mail) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(emailSender);
         mailMessage.setTo(mail.getMailTo());
         Optional.ofNullable(mail.getToCc()).ifPresent(mailMessage::setCc);
         mailMessage.setSubject(mail.getSubject());
