@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
@@ -31,8 +32,11 @@ public class TrelloMapperTest {
         List<TrelloBoard> result = mapper.mapToBoards(trelloBoardDtoList);
         // Then
         assertEquals(2, result.size());
+        assertEquals("1", result.get(0).getId());
         assertEquals("2", result.get(1).getId());
-        assertEquals(0, result.get(0).getLists().size());
+        assertEquals("1", result.get(0).getName());
+        assertEquals("2", result.get(1).getName());
+        result.forEach(trelloBoard -> assertEquals(0, trelloBoard.getLists().size()));
     }
 
     @Test
@@ -45,8 +49,11 @@ public class TrelloMapperTest {
         List<TrelloBoardDto> result = mapper.mapToBoardsDto(trelloBoardList);
         // Then
         assertEquals(2, result.size());
+        assertEquals("1", result.get(0).getId());
         assertEquals("2", result.get(1).getId());
-        assertEquals(0, result.get(0).getLists().size());
+        assertEquals("1", result.get(0).getName());
+        assertEquals("2", result.get(1).getName());
+        result.forEach(trelloBoardDto -> assertEquals(0, trelloBoardDto.getLists().size()));
     }
 
     @Test
@@ -59,8 +66,12 @@ public class TrelloMapperTest {
         List<TrelloList> result = mapper.mapToList(trelloListDtoList);
         // Then
         assertEquals(2, result.size());
+        assertEquals("1", result.get(0).getId());
         assertEquals("2", result.get(1).getId());
+        assertEquals("1", result.get(0).getName());
+        assertEquals("2", result.get(1).getName());
         assertTrue(result.get(0).isClosed());
+        assertFalse(result.get(1).isClosed());
     }
 
     @Test
@@ -73,8 +84,12 @@ public class TrelloMapperTest {
         List<TrelloListDto> result = mapper.mapToListDto(trelloList);
         // Then
         assertEquals(2, result.size());
+        assertEquals("1", result.get(0).getId());
         assertEquals("2", result.get(1).getId());
+        assertEquals("1", result.get(0).getName());
+        assertEquals("2", result.get(1).getName());
         assertTrue(result.get(0).isClosed());
+        assertFalse(result.get(1).isClosed());
     }
 
     @Test
