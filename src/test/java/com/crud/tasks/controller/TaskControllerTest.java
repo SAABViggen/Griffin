@@ -65,6 +65,19 @@ public class TaskControllerTest {
     }
 
     @Test
+    public void shouldFetchTaskById() throws Exception {
+        // Given
+        Task task = new Task(1L, "Task", "Content");
+        when(service.getTask(1L).orElseThrow(TaskNotFoundException::new)).thenReturn(task);
+        // When & Then
+        mockMvc.perform(get("/v1/task/getTask?taskId=1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1L)))
+                .andExpect(jsonPath("$.title", is("Task")))
+                .andExpect(jsonPath("$.content", is("Content")));
+    }
+
+    @Test
     public void shouldDeleteTask() throws Exception {
         // Given
         List<Task> tasks = new ArrayList<>();
