@@ -129,7 +129,8 @@ public class TaskControllerTest {
         mockMvc.perform(post("/v1/task/createTask")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(jsonContent));
+                .content(jsonContent))
+                .andExpect(status().isOk());
         verify(service, times(1)).saveTask(task);
     }
 }
