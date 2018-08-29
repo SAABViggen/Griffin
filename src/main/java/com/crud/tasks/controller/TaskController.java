@@ -33,9 +33,8 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "searchTask")
-    public List<TaskDto> searchTask(@RequestParam String str) throws TaskNotFoundException {
-        return Optional.ofNullable(taskMapper.mapToTaskDtoList(service.searchTaskContaining(str)))
-                .orElseThrow(TaskNotFoundException::new);
+    public List<TaskDto> searchTask(@RequestParam String str) {
+        return taskMapper.mapToTaskDtoList(service.searchTaskContaining(str));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")

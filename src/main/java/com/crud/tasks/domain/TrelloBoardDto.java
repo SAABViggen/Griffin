@@ -4,6 +4,7 @@ package com.crud.tasks.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrelloBoardDto {
 
@@ -24,14 +26,4 @@ public class TrelloBoardDto {
 
     @JsonProperty("lists")
     private List<TrelloListDto> lists;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TrelloBoardDto that = (TrelloBoardDto) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(lists, that.lists);
-    }
 }

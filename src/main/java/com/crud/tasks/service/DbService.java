@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DbService {
@@ -24,14 +25,10 @@ public class DbService {
     }
 
     public List<Task> searchTaskContaining(final String str) {
-        List<Task> tasks = getAllTasks();
-        List<Task> result = new ArrayList<>();
-        for (Task t : tasks) {
-            if (t.getContent().toLowerCase().contains(str.toLowerCase()) || t.getTitle().toLowerCase().contains(str.toLowerCase())) {
-                result.add(t);
-            }
-        }
-        return result;
+        return getAllTasks().stream()
+                .filter(t -> t.getContent().toLowerCase().contains(str.toLowerCase())
+                        || t.getTitle().toLowerCase().contains(str.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     public Task saveTask(final Task task) {
