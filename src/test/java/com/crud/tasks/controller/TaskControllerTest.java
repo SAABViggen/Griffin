@@ -100,8 +100,6 @@ public class TaskControllerTest {
     @Test
     public void shouldNotFindTaskContaining() throws Exception {
         // Given
-        List<Task> tasks = new ArrayList<>();
-        tasks.add(task);
         when(service.searchTaskContaining("asd")).thenReturn(new ArrayList<>());
         // When & Then
         mockMvc.perform(get("/v1/task/searchTask?str=asd").contentType(MediaType.APPLICATION_JSON))
