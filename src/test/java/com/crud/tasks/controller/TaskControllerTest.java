@@ -83,12 +83,11 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void shouldFindTaskByGivenLetters() throws Exception {
+    public void shouldFindTaskContaining() throws Exception {
         // Given
         List<Task> tasks = new ArrayList<>();
         tasks.add(task);
         when(service.searchTaskContaining("as")).thenReturn(tasks);
-        when(service.searchTaskContaining("asd")).thenReturn(new ArrayList<>());
         // When & Then
         mockMvc.perform(get("/v1/task/searchTask?str=as").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -96,6 +95,15 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].title", is("Task")))
                 .andExpect(jsonPath("$[0].content", is("Content")));
+    }
+
+    @Test
+    public void shouldNotFindTaskContaining() throws Exception {
+        // Given
+        List<Task> tasks = new ArrayList<>();
+        tasks.add(task);
+        when(service.searchTaskContaining("asd")).thenReturn(new ArrayList<>());
+        // When & Then
         mockMvc.perform(get("/v1/task/searchTask?str=asd").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -113,6 +121,7 @@ public class TaskControllerTest {
     @Test
     public void shouldUpdateTask() throws Exception {
         // Given
+        when(service.saveTask(task)).thenReturn(task);
         // When & Then
         mockMvc.perform(put("/v1/task/updateTask")
                 .contentType(MediaType.APPLICATION_JSON)
