@@ -11,22 +11,18 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.mail.SimpleMailMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloServiceTest {
 
     @InjectMocks
-    @SpyBean
     private TrelloService trelloService;
 
     @Mock
@@ -66,7 +62,11 @@ public class TrelloServiceTest {
                 "Test task",
                 "http://test.com");
 
-        Mail mail = new Mail("test@test.com", null, "Test", "Test Subject");
+        Mail mail = new Mail(
+                "test@test.com",
+                null,
+                "Tasks: New Trello card",
+                "New card: Test task has been created on Your Trello account");
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
@@ -74,18 +74,12 @@ public class TrelloServiceTest {
 
         when(trelloClient.createNewCard(trelloCard)).thenReturn(createdTrelloCard);
         when(adminConfig.getAdminMail()).thenReturn("test@test.com");
-        doNothing().when(emailService).send(any());
-
-/*        doAnswer(invocation -> {
-            emailService.send(mail);
-            return null;
-        }).when(emailService).send(any());*/
         // When
         CreatedTrelloCardDto result = trelloService.createTrelloCard(trelloCard);
         // Then
         assertEquals("1", result.getId());
         assertEquals("Test task", result.getName());
         assertEquals("http://test.com", result.getShortUrl());
-//        verify(emailService, times(1)).send(mail);
+        verify(emailService, times(1)).send(mail);
     }
 }

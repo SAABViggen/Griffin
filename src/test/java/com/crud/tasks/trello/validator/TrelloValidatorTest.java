@@ -1,6 +1,7 @@
 package com.crud.tasks.trello.validator;
 
 import com.crud.tasks.domain.TrelloBoard;
+import com.crud.tasks.domain.TrelloCard;
 import com.crud.tasks.domain.TrelloList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,15 +24,21 @@ public class TrelloValidatorTest {
     @Spy
     private TrelloValidator validator;
 
-/*    @Test
-    public void shouldValidateCard() {
+    @Test
+    public void shouldFetchEmptyList() {
         // Given
-        TrelloCard trelloCard = new TrelloCard("Card", "Some card", "top", "123");
+        List<TrelloList> trelloLists = new ArrayList<>();
+        trelloLists.add(new TrelloList("1", "Some List", false));
+
+        TrelloBoard shouldBeRejected = new TrelloBoard("1", "Test", trelloLists);
+
+        List<TrelloBoard> trelloBoards = new ArrayList<>();
+        trelloBoards.add(shouldBeRejected);
         // When
-        validator.validateCard(trelloCard);
+        List<TrelloBoard> result = validator.validateTrelloBoards(trelloBoards);
         // Then
-        verify(validator).validateCard(trelloCard);
-    }*/
+        assertEquals(0, result.size());
+    }
 
     @Test
     public void shouldFetchFilteredBoards() {

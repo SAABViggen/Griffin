@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +21,6 @@ import static org.mockito.Mockito.when;
 public class DbServiceTest {
 
     @InjectMocks
-    @SpyBean
     private DbService dbService;
 
     @Mock
