@@ -24,7 +24,7 @@ public class TrelloValidatorTest {
     @Spy
     private TrelloValidator validator;
 
-    @Test
+/*    @Test
     public void shouldValidateCard() {
         // Given
         TrelloCard trelloCard = new TrelloCard("Card", "Some card", "top", "123");
@@ -32,7 +32,7 @@ public class TrelloValidatorTest {
         validator.validateCard(trelloCard);
         // Then
         verify(validator).validateCard(trelloCard);
-    }
+    }*/
 
     @Test
     public void shouldFetchFilteredBoards() {
