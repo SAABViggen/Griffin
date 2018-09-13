@@ -44,12 +44,13 @@ public class MailCreatorService {
         context.setVariable("tasks_url", "https://saabviggen.github.io/");
         context.setVariable("button", "Visit website");
         context.setVariable("preview", "New trello card");
-        context.setVariable("show_button", false);
+        context.setVariable("show_button", true);
         context.setVariable("is_friend", false);
         context.setVariable("admin_config", adminConfig);
-        context.setVariable("company", companyName + ", " + companyGoal + ".\n" +
-                "Contact: " + companyEmail + ", tel.: " + companyPhone);
-        context.setVariable("goodbye", "Best Regards, \n" + companyName);
+        context.setVariable("company", companyName + ", " + companyGoal);
+        context.setVariable("company_contact", "Contact: " + companyEmail + ", tel.: " + companyPhone);
+        context.setVariable("goodbye", "Best Regards, ");
+        context.setVariable("company_name", "          " + companyName);
         context.setVariable("application_functionality", functionality);
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
@@ -68,9 +69,10 @@ public class MailCreatorService {
         context.setVariable("are_tasks_waiting", taskRepository.count() > 0);
         context.setVariable("no_tasks", "You have time to rest now!");
         context.setVariable("admin_config", adminConfig);
-        context.setVariable("company", companyName + ", " + companyGoal + ".\n" +
-                "Contact: " + companyEmail + ", tel.: " + companyPhone);
-        context.setVariable("goodbye", "Best Regards, \n" + companyName);
+        context.setVariable("company", companyName + ", " + companyGoal);
+        context.setVariable("company_contact", "Contact: " + companyEmail + ", tel.: " + companyPhone);
+        context.setVariable("goodbye", "Best Regards, ");
+        context.setVariable("company_name", "          " + companyName);
         context.setVariable("tasks", tasks);
         return templateEngine.process("mail/daily_task_information_mail", context);
     }

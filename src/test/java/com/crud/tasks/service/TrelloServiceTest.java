@@ -80,6 +80,6 @@ public class TrelloServiceTest {
         assertEquals("1", result.getId());
         assertEquals("Test task", result.getName());
         assertEquals("http://test.com", result.getShortUrl());
-        verify(emailService, times(1)).send(mail);
+        verify(emailService, times(1)).send(mail, false);
     }
 }
