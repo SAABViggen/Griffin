@@ -6,13 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class SimpleEmailService {
@@ -27,10 +24,14 @@ public class SimpleEmailService {
     @Value("${spring.mail.username}")
     private String emailSender;
 
-    public void send(final Mail mail) {
+    public void send(final Mail mail, boolean daily) {
         LOGGER.info("Starting email preparation... ");
         try {
-            javaMailSender.send(createMimeMessage(mail));
+            if (daily) {
+                javaMailSender.send(createDailyMimeMessage(mail));
+            } else {
+                javaMailSender.send(createMimeMessage(mail));
+            }
             LOGGER.info("Email has been sent. ");
         } catch (MailException e) {
             LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
@@ -47,7 +48,17 @@ public class SimpleEmailService {
         };
     }
 
-    private SimpleMailMessage createMailMessage(final Mail mail) {
+    private MimeMessagePreparator createDailyMimeMessage(final Mail mail) {
+        return mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom(emailSender);
+            messageHelper.setTo(mail.getMailTo());
+            messageHelper.setSubject(mail.getSubject());
+            messageHelper.setText(mailCreatorService.buildDailyInformationEmail(mail.getMessage()), true);
+        };
+    }
+
+/*    private SimpleMailMessage createMailMessage(final Mail mail) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(emailSender);
         mailMessage.setTo(mail.getMailTo());
@@ -55,5 +66,5 @@ public class SimpleEmailService {
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
         return mailMessage;
-    }
+    }*/
 }
