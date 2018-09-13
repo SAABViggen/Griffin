@@ -10,8 +10,20 @@
     <br/>
     <span th:text="${two} + ' * ' + ${two} + ' = ' + ${two} * ${two}"></span>
     <br/>
-    <span th:text="${two} + ' * ' + ${two} + ' + ' + ${two} + ' = ' + ${two} * ${two} + ${two}"></span>
+    <span th:text="${two} + ' * ' + ${two} + ' + ' + ${two} + ' = ' + (${two} * ${two} + ${two})"></span>
     <br/>
     <span th:text="${two} + ' - ' + ${two} + ' * ' + ${two} + ' = ' + (${two} - ${two} * ${two})"></span>
+
+<!--    <span th:text="${one} + ${two}"></span>
+    <br/>
+    <span th:text="${two + ' * ' + two + ' = '}"></span>
+    <span th:text="${two} * ${two}"></span>
+    <br/>
+    <span th:text="${two + ' * ' + two + ' + ' + two + ' = '}"></span>
+    <span th:text="${two} * ${two} + ${two}"></span>
+    <br/>
+    <span th:text="${two + ' - ' + two + ' * ' + two + ' = '}"></span>
+    <span th:text="${two} - ${two} * ${two}"></span>-->
+
 </body>
 </html>
