@@ -62,7 +62,7 @@ public class TaskControllerTest {
         tasks.add(task);
         when(service.getAllTasks()).thenReturn(tasks);
         // When & Then
-        mockMvc.perform(get("/v1/tasks/").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -82,14 +82,14 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$.content", is("Content")));
     }
 
-/*    @Test
+    @Test
     public void shouldFindTaskContaining() throws Exception {
         // Given
         List<Task> tasks = new ArrayList<>();
         tasks.add(task);
         when(service.searchTaskContaining("as")).thenReturn(tasks);
         // When & Then
-        mockMvc.perform(get("/v1/tasks/as").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks/search?str=as").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -102,10 +102,10 @@ public class TaskControllerTest {
         // Given
         when(service.searchTaskContaining("asd")).thenReturn(new ArrayList<>());
         // When & Then
-        mockMvc.perform(get("/v1/tasks/asd").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks/search?str=asd").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
-    }*/
+    }
 
     @Test
     public void shouldDeleteTask() throws Exception {
@@ -121,7 +121,7 @@ public class TaskControllerTest {
         // Given
         when(service.saveTask(task)).thenReturn(task);
         // When & Then
-        mockMvc.perform(put("/v1/tasks/")
+        mockMvc.perform(put("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
@@ -133,7 +133,7 @@ public class TaskControllerTest {
     public void shouldCreateTask() throws Exception {
         // Given
         // When & Then
-        mockMvc.perform(post("/v1/tasks/")
+        mockMvc.perform(post("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))

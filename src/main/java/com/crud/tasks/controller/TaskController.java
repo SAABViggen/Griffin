@@ -32,10 +32,10 @@ public class TaskController {
         return taskMapper.mapToTaskDto(service.getTask(taskId).orElseThrow(TaskNotFoundException::new));
     }
 
-/*    @RequestMapping(method = RequestMethod.GET, value = "/tasks/{str}")
-    public List<TaskDto> searchTask(@PathVariable String str) {
+    @RequestMapping(method = RequestMethod.GET, value = "/tasks/search")
+    public List<TaskDto> searchTask(@RequestParam String str) {
         return taskMapper.mapToTaskDtoList(service.searchTaskContaining(str));
-    }*/
+    }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/tasks/{taskId}")
     public void deleteTask(@PathVariable Long taskId) {
