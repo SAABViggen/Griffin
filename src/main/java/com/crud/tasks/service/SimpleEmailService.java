@@ -40,21 +40,11 @@ public class SimpleEmailService {
             messageHelper.setFrom(emailSender);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            if (daily) {
-                messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
-            } else {
-                messageHelper.setText(mailCreatorService.buildDailyInformationEmail(mail.getMessage()), true);
-            }
+
+            String message = daily ?
+                    mailCreatorService.buildTrelloCardEmail(mail.getMessage()) :
+                    mailCreatorService.buildDailyInformationEmail(mail.getMessage());
+            messageHelper.setText(message, true);
         };
     }
-
-/*    private SimpleMailMessage createMailMessage(final Mail mail) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(emailSender);
-        mailMessage.setTo(mail.getMailTo());
-        Optional.ofNullable(mail.getToCc()).ifPresent(mailMessage::setCc);
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mail.getMessage());
-        return mailMessage;
-    }*/
 }

@@ -12,6 +12,7 @@ import org.thymeleaf.context.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -42,10 +43,9 @@ public class MailCreatorService {
     }
 
     public String buildDailyInformationEmail(String message) {
-        List<String> tasks = new ArrayList<>();
-        taskRepository.findAll().stream()
+        List<String> tasks = taskRepository.findAll().stream()
                 .map(Task::getContent)
-                .forEach(tasks::add);
+                .collect(Collectors.toList());
 
         Context context = getStandardContext(message);
         context.setVariable("preview", "Tasks in database: " + tasks.size());
